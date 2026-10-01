@@ -445,8 +445,8 @@
           <p>Need the quote chased or the appointment confirmed? The desk picks up the phone and calls out &mdash; politely, persistently, and in your shop&rsquo;s voice.</p>
         </article>
         <article>
-          <h3>Gets you paid</h3>
-          <p>Sends a payment link by text the moment the job is booked. The desk collects deposits &mdash; it never promises a price you didn&rsquo;t set.</p>
+          <h3>Chases the invoice for you</h3>
+          <p>Books the job, then texts the customer <strong>your</strong> payment link &mdash; Square, Stripe, QuickBooks, whatever you already use. Money goes straight to you; the desk just makes sure it gets collected.</p>
         </article>
         <article>
           <h3>Looks it up mid-call</h3>
@@ -537,7 +537,7 @@
 
     <section id="onboard" class="reveal">
       <h2>Ready to buy? Start onboarding here.</h2>
-      <p class="sub">Fill this in and your desk is on its way. We confirm the details within one business day, you pay the $250 setup, and your desk goes live the same day.</p>
+      <p class="sub">Fill this in and your desk is on its way. We confirm the details within one business day, you start the package, and your desk goes live the same day &mdash; booking jobs and texting your payment links to every customer it books.</p>
       <div class="card">
         <div class="form-grid">
           <div class="field"><label>Your name</label><input id="obName" placeholder="Tom Reyes" /></div>
@@ -548,6 +548,7 @@
           <div class="field"><label>Phone line the desk should cover</label><input id="obLine" placeholder="Your main business line" /></div>
           <div class="field"><label>Your hours</label><input id="obHours" placeholder="Mon-Fri 8-6, Sat 9-2" /></div>
           <div class="field"><label>Services you sell</label><input id="obServices" placeholder="Diagnostics, installs, maintenance..." /></div>
+          <div class="field"><label>How do you take payment? (paste your Square / Stripe / QuickBooks link, or describe deposits)</label><input id="obPayment" placeholder="https://square.site/... or: card on site, 50% deposit..." /></div>
         </div>
         <button class="btn-primary" id="obSubmit">Start my onboarding</button>
         <div id="obResult"></div>
@@ -828,7 +829,7 @@
         const r = await fetch(API + "/ondeskStartOnboarding", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
           contact_name: v("obName"), email: v("obEmail"), phone: v("obPhone"),
           business_name: v("obBiz"), business_type: v("obType"),
-          phone_line: v("obLine"), hours: v("obHours"), services: v("obServices")
+          phone_line: v("obLine"), hours: v("obHours"), services: v("obServices"), payment_info: v("obPayment")
         }) });
         const d = await r.json();
         if (d.ok) {
