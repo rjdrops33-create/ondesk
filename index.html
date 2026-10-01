@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>On Desk — Calls answered. Jobs booked.</title>
+  <meta name="description" content="On Desk is an AI phone and message desk for local service businesses. It answers live, screens the call, books the job, follows up by text, sends reminders, and logs everything so a missed call never walks to the next shop." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,520;9..144,640&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1c1915;
+      --muted: #5e574e;
+      --line: #e4dccf;
+      --paper: #f7f1e7;
+      --card: #fffaf3;
+      --stamp: #8d3b2c;
+      --stamp-dark: #6e2c21;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: Outfit, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 80% -10%, #efe4d2 0%, transparent 60%),
+        var(--paper);
+      line-height: 1.5;
+    }
+    a { color: inherit; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 28px 20px 72px; }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .mark { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: 0.01em; }
+    .seal {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1.5px solid var(--stamp);
+      color: var(--stamp);
+      display: grid; place-items: center;
+      font-family: Fraunces, serif;
+      font-size: 16px;
+    }
+    nav a { text-decoration: none; margin-left: 18px; color: var(--muted); font-size: 15px; }
+    .hero { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 28px; align-items: end; padding: 54px 0 28px; }
+    h1 {
+      font-family: Fraunces, serif;
+      font-weight: 520;
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      margin: 0 0 18px;
+    }
+    .lede { font-size: 19px; max-width: 520px; color: var(--muted); margin: 0 0 26px; }
+    .cta {
+      display: inline-block;
+      background: var(--stamp);
+      color: #fffaf3;
+      text-decoration: none;
+      padding: 13px 18px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .cta:hover { background: var(--stamp-dark); }
+    .note { display: block; margin-top: 10px; color: var(--muted); font-size: 14px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 10px 30px rgba(70, 48, 20, 0.04);
+    }
+    .card p { margin: 8px 0; }
+    .label { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stamp); font-weight: 600; }
+    .price { font-family: Fraunces, serif; font-size: 42px; margin: 6px 0; }
+    .price span { font-size: 16px; color: var(--muted); }
+    section { padding: 22px 0; }
+    h2 { font-family: Fraunces, serif; font-size: 32px; font-weight: 520; margin: 0 0 8px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+    .grid article, .steps div {
+      background: rgba(255,250,243,0.7);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px;
+    }
+    .grid h3, .steps h3 { margin: 8px 0 6px; font-size: 18px; }
+    .grid p, .steps p { margin: 0; color: var(--muted); }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+    .num { font-family: Fraunces, serif; color: var(--stamp); font-size: 22px; }
+    footer { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+    @media (max-width: 760px) {
+      .hero, .grid, .steps { grid-template-columns: 1fr; }
+      nav { display: none; }
+      .hero { padding-top: 34px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="mark"><span class="seal">O</span> On Desk</div>
+      <nav>
+        <a href="#work">What we do</a>
+        <a href="#price">Pricing</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <div>
+        <p class="label">For shops that live on the phone</p>
+        <h1>The desk that picks up when you can’t.</h1>
+        <p class="lede">On Desk is a real AI receptionist with a real voice. It answers live, asks your questions, books the job, follows up by text, and logs every call — so a missed call never walks to the next shop.</p>
+        <a class="cta" href="#contact">Ask for a same-day setup</a>
+        <span class="note">HVAC, salons, auto, dental, gyms, studios, and anyone who loses jobs to voicemail.</span>
+      </div>
+      <aside class="card" id="price">
+        <p class="label">Simple pricing</p>
+        <p class="price">$250 <span>to go live</span></p>
+        <p>$300 a month after that.</p>
+        <p>If it doesn’t catch one extra job in the first week, you don’t pay month two.</p>
+      </aside>
+    </div>
+
+    <section id="work">
+      <h2>What the desk handles</h2>
+      <div class="grid">
+        <article>
+          <h3>Answers live, every time</h3>
+          <p>A conversational voice picks up on the first ring — not a voicemail box, not a menu maze. It talks like a person because it is built to.</p>
+        </article>
+        <article>
+          <h3>Screens the call</h3>
+          <p>Asks the questions you always ask: name, job, address, timeline. Hot jobs get flagged to your phone instantly. Tire-kickers get handled politely.</p>
+        </article>
+        <article>
+          <h3>Texts and messages</h3>
+          <p>Follows up on iMessage and WhatsApp so the person who called still gets an answer while you are with a customer. Same desk, same voice, every channel.</p>
+        </article>
+        <article>
+          <h3>Books and reminds</h3>
+          <p>Confirms the time, texts a reminder the morning of, and reschedules without phone tag. Fewer no-shows, zero phone tag.</p>
+        </article>
+        <article>
+          <h3>The book</h3>
+          <p>Logs who called, what they wanted, and the next step. You get a short recap you can read in ten seconds — plus the full call transcript whenever you want it.</p>
+        </article>
+        <article>
+          <h3>Outbound follow-up</h3>
+          <p>Need the quote chased or the appointment confirmed? The desk picks up the phone and calls out — politely, persistently, and in your shop’s voice.</p>
+        </article>
+        <article>
+          <h3>Gets you paid</h3>
+          <p>Sends a payment link by text the moment the job is booked. The desk collects deposits — it never promises a price you didn’t set.</p>
+        </article>
+        <article>
+          <h3>Looks it up mid-call</h3>
+          <p>Customer asks about your hours, your services, your service area? The desk answers from your shop’s own sheet — and can research anything it doesn’t know yet.</p>
+        </article>
+        <article>
+          <h3>Never sleeps badly</h3>
+          <p>After hours, on a job, mid-holiday — the desk keeps the same energy. One AI, one voice, no sick days, no payroll.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>How a setup works</h2>
+      <div class="steps">
+        <div>
+          <div class="num">01</div>
+          <h3>Tell us the shop</h3>
+          <p>What you do, what a good job sounds like, and the questions you always ask.</p>
+        </div>
+        <div>
+          <div class="num">02</div>
+          <h3>We write the desk</h3>
+          <p>Call script, text follow-up, and a simple intake: name, job, time, address. You approve every word before it goes live.</p>
+        </div>
+        <div>
+          <div class="num">03</div>
+          <h3>You stay in charge</h3>
+          <p>The desk works for you. It does not take payment behind your back, promise work you didn’t quote, or answer questions you didn’t clear.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <div class="card">
+        <p><strong>On Desk</strong></p>
+        <p>An AI phone and message desk for local service businesses.</p>
+        <p>Email: <a href="mailto:ondeskcustomersupport@gmail.com">ondeskcustomersupport@gmail.com</a></p>
+        <p>Service area: Michigan, remote setup available.</p>
+        <p>To start: email the shop name, the phone line you want covered, and the best time for a 10-minute call.</p>
+      </div>
+    </section>
+
+    <footer>
+      On Desk is a trade name. Service is provided by the account owner. This page describes the service offered. It is not a law firm, medical office, or licensed contractor.
+    </footer>
+  </div>
+</body>
+</html>
