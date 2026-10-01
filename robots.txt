@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Explicitly welcome AI answer engines
+User-agent: Google-Extended
+Allow: /
+User-agent: GPTBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://ondeskservice.com/sitemap.xml
