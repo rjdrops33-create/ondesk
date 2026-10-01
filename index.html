@@ -528,8 +528,9 @@
       <div class="card" style="max-width:520px;">
         <p class="price">$250 <span>to go live</span></p>
         <p>$300 a month after that. Same-day setup, your script, your rules.</p>
-        <p><strong>The guarantee:</strong> if the desk doesn&rsquo;t catch one extra job in the first week, you don&rsquo;t pay month two.</p>
-        <a class="cta" href="#onboard" style="margin-top:10px;">Start same-day setup</a>
+        <p><strong>The guarantee:</strong> if the desk doesn&rsquo;t catch one extra job in the first week, month two is refunded.</p>
+        <a class="cta" href="https://checkout.stripe.com/c/pay/cs_live_b1F9gtaeh1WoT3moPdyo0IbcJAlvcguLrfXFIYMtLI9DLM6iyRM4yisgTh#fidnandhYHdWcXxpYCc%2FJ2FgY2RwaXEnKSdicyc%2FNSkndnF3bHVgRGZmanBrcSc%2FJ2RmZnFaNFBJUjBrQVN2a0ExUnxySScpJ2R1bE5gfCc%2FJ3VuWmlsc2BaMDRUfGAxcEIxa1c1SUJofHZfZ0tyZ2xLR1xCa1VLXEFEQTxANl1dZFNUfUtWbm1PRnxtSmFAMjRiQ1FwMkpHQ3VrTjJsUGRQaG99Y1xTRGMzNk5sUG5ianU1NWBCYG9tajFAJyknY3dqaFZgd3Ngdyc%2FcXdwYCknZ2RmbmJ3anBrYUZqaWp3Jz8nJmNjY2NjYycpJ2lkfGpwcVF8dWAnPydocGlxbFpscWBoJyknYGtkZ2lgVWlkZmBtamlhYHd2Jz9xd3BgeCUl" style="margin-top:10px;">Start the full package &mdash; $250 setup + $300/mo</a>
+        <span class="note">Billed automatically each month. Cancel anytime.</span>
       </div>
     </section>
 
@@ -831,7 +832,7 @@
         }) });
         const d = await r.json();
         if (d.ok) {
-          obResult.innerHTML = '<div class="panel"><b>You\u2019re in the queue \u2713</b><br/><strong>What happens next:</strong> 1) We confirm your details within one business day. 2) Pay the $250 setup when you\u2019re ready \u2014 button below. 3) Your desk goes live the same day, and the first week is guaranteed: if it doesn\u2019t catch you one extra job, month two is free.<br/><a class="pay-btn" href="https://checkout.stripe.com/c/pay/cs_live_a1J4FYDKIDwGxysZ1f9ofyeOOfZhfdJ6YTp4hSg3EXzNkhQ8IMHWtHlzM2#fidnandhYHdWcXxpYCc%2FJ2FgY2RwaXEnKSdicyc%2FNSkndnF3bHVgRGZmanBrcSc%2FJ2RmZnFaNFBJUjBrQVN2a0ExUnxySScpJ2R1bE5gfCc%2FJ3VuWmlsc2BaMDRUfGAxcEIxa1c1SUJofHZfZ0tyZ2xLR1xCa1VLXEFEQTxANl1dZFNUfUtWbm1PRnxtSmFAMjRiQ1FwMkpHQ3VrTjJsUGRQaG99Y1xTRGMzNk5sUG5ianU1NWBCYG9tajFAJyknY3dqaFZgd3Ngdyc%2FcXdwYCknZ2RmbmJ3anBrYUZqaWp3Jz8nJmNjY2NjYycpJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl">Pay the $250 setup</a></div>';
+          obResult.innerHTML = '<div class="panel"><b>You\u2019re in the queue \u2713</b><br/><strong>What happens next:</strong> 1) We confirm your details within one business day. 2) Start the package when you\u2019re ready \u2014 button below. $250 setup plus $300 a month, billed automatically, cancel anytime. 3) Your desk goes live the same day, and the first week is guaranteed: if it doesn\u2019t catch you one extra job, month two is free.<br/><a class="pay-btn" href="https://checkout.stripe.com/c/pay/cs_live_b1F9gtaeh1WoT3moPdyo0IbcJAlvcguLrfXFIYMtLI9DLM6iyRM4yisgTh#fidnandhYHdWcXxpYCc%2FJ2FgY2RwaXEnKSdicyc%2FNSkndnF3bHVgRGZmanBrcSc%2FJ2RmZnFaNFBJUjBrQVN2a0ExUnxySScpJ2R1bE5gfCc%2FJ3VuWmlsc2BaMDRUfGAxcEIxa1c1SUJofHZfZ0tyZ2xLR1xCa1VLXEFEQTxANl1dZFNUfUtWbm1PRnxtSmFAMjRiQ1FwMkpHQ3VrTjJsUGRQaG99Y1xTRGMzNk5sUG5ianU1NWBCYG9tajFAJyknY3dqaFZgd3Ngdyc%2FcXdwYCknZ2RmbmJ3anBrYUZqaWp3Jz8nJmNjY2NjYycpJ2lkfGpwcVF8dWAnPydocGlxbFpscWBoJyknYGtkZ2lgVWlkZmBtamlhYHd2Jz9xd3BgeCUl">Start the full package &mdash; $250 setup + $300/mo</a></div>';
         } else {
           obResult.innerHTML = '<div class="panel err-box">' + (d.error || "Something went wrong. Try again.") + '</div>';
         }
