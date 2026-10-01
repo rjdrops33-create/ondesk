@@ -1,0 +1,10 @@
+# On Desk
+> On Desk is an AI phone receptionist and answering service for local service businesses (HVAC, salons, auto shops, groomers, welders, gun shops, and more). It answers live in English and Spanish, screens calls, books jobs, follows up by text, sends payment links, and covers after hours. $250 setup, $300/month, first-week guarantee.
+
+Docs:
+- [Homepage](https://ondeskservice.com/): Service overview, live call demo, pricing, and booking.
+- [Field Notes](https://ondeskservice.com/blog/): Practical guides for small service businesses.
+- [Bilingual answering service guide](https://ondeskservice.com/blog/bilingual-answering-service/): How bilingual answering books more jobs.
+- [After hours answering guide](https://ondeskservice.com/blog/after-hours-answering/): How AI after hours answering stops lost night calls.
+
+Contact: ondeskcustomersupport@gmail.com
