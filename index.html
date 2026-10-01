@@ -225,6 +225,59 @@
     .loss p { color: var(--muted); font-size: 14px; max-width: 320px; margin: 0 auto 14px; }
     .loss .cta { margin-top: 2px; }
 
+
+    /* ---------- Booking ---------- */
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field label { font-size: 13px; font-weight: 600; }
+    .field input, .field select {
+      font-family: Outfit, sans-serif; font-size: 15px;
+      padding: 10px 12px; border-radius: 10px;
+      border: 1.5px solid var(--line); background: #fffdf9; color: var(--ink);
+      outline: none; transition: border-color .15s ease;
+    }
+    .field input:focus, .field select:focus { border-color: var(--stamp); }
+    .slot-grid { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 18px; }
+    .slot {
+      border: 1.5px solid var(--line); background: #fffdf9; color: var(--ink);
+      border-radius: 999px; padding: 7px 13px; font-family: Outfit, sans-serif;
+      font-size: 14px; font-weight: 500; cursor: pointer;
+      transition: all .15s ease;
+    }
+    .slot:hover { border-color: var(--stamp); color: var(--stamp); }
+    .slot.sel { background: var(--stamp); border-color: var(--stamp); color: #fffaf3; }
+    .slot:disabled { opacity: .35; cursor: default; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .btn-primary {
+      background: var(--stamp); color: #fffaf3; border: none; cursor: pointer;
+      font-family: Outfit, sans-serif; font-weight: 600; font-size: 15px;
+      border-radius: 999px; padding: 12px 22px; margin-top: 14px;
+      transition: background .15s ease, transform .15s ease;
+    }
+    .btn-primary:hover { background: var(--stamp-dark); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: .6; cursor: default; transform: none; }
+    .panel {
+      border: 1.5px solid #d9e5d9; background: #f0f6f0;
+      border-radius: 14px; padding: 16px; margin-top: 14px; font-size: 14px;
+    }
+    .panel b { color: var(--green); }
+    .panel .ref { font-family: Fraunces, serif; font-size: 22px; letter-spacing: .06em; color: var(--green); display: block; margin: 4px 0; }
+    .err-box { border-color: #f0d9d5; background: #faf0ee; color: var(--stamp-dark); }
+    .manage-box { margin-top: 22px; padding-top: 16px; border-top: 1px dashed var(--line); font-size: 14px; }
+    .manage-box summary { cursor: pointer; color: var(--muted); font-weight: 500; }
+    .appt-row {
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      background: #fffdf9; border: 1px solid var(--line); border-radius: 10px;
+      padding: 10px 12px; margin-top: 8px; font-size: 14px;
+    }
+    .btn-cancel {
+      background: transparent; border: 1.5px solid var(--line); cursor: pointer;
+      border-radius: 999px; padding: 6px 12px; font-family: Outfit, sans-serif;
+      font-size: 13px; font-weight: 600; color: var(--muted); transition: all .15s ease;
+    }
+    .btn-cancel:hover { border-color: var(--stamp); color: var(--stamp); }
+    .tiny { font-size: 12px; color: var(--muted); }
+    .pay-btn { display: inline-block; margin-top: 10px; background: var(--ink); color: #f7f1e7; text-decoration: none; font-weight: 600; padding: 11px 18px; border-radius: 999px; font-size: 15px; transition: opacity .15s ease; }
+    .pay-btn:hover { opacity: .85; }
     /* ---------- Reveal on scroll ---------- */
     .reveal { opacity: 0; transform: translateY(22px); transition: opacity .6s ease, transform .6s ease; }
     .reveal.in { opacity: 1; transform: none; }
@@ -267,6 +320,7 @@
         <a href="#demo">See a call</a>
         <a href="#work">What we do</a>
         <a href="#calc">What voicemail costs</a>
+        <a href="#book">Book a call</a>
         <a href="#price">Pricing</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -278,7 +332,7 @@
         <h1>The desk that picks up when you can&rsquo;t.</h1>
         <p class="lede">On Desk is a real AI receptionist with a real voice. It answers live, asks your questions, books the job, follows up by text, and logs every call &mdash; so a missed call never walks to the next shop.</p>
         <a class="cta" href="#demo">Watch it answer a call</a>
-        <a class="cta" href="#contact" style="background:transparent;color:var(--ink);border:1.5px solid var(--line);margin-left:8px;">Same-day setup</a>
+        <a class="cta" href="#contact" style="background:transparent;color:var(--ink);border:1.5px solid var(--line);margin-left:8px;">Get On Desk</a>
         <span class="note">HVAC, salons, auto, dental, gyms, studios, and anyone who loses jobs to voicemail.</span>
       </div>
 
@@ -372,6 +426,44 @@
       </div>
     </section>
 
+
+    <section id="book" class="reveal">
+      <h2>Book a free 10-minute call</h2>
+      <p class="sub">Pick a time. We call you, ask about your shop, and show you exactly how your desk would answer. No pitch deck, no pressure.</p>
+      <div class="card">
+        <div class="form-grid">
+          <div class="field">
+            <label>Day</label>
+            <select id="bkDay"></select>
+          </div>
+          <div class="field">
+            <label>Business type</label>
+            <select id="bkType">
+              <option>HVAC</option><option>Salon</option><option>Auto</option>
+              <option>Dental</option><option>Gym</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="slot-grid" id="bkSlots"><span class="tiny">Pick a day to see open times.</span></div>
+        <div class="form-grid">
+          <div class="field"><label>Your name</label><input id="bkName" placeholder="Maria Lopez" /></div>
+          <div class="field"><label>Business name</label><input id="bkBiz" placeholder="Maria's HVAC" /></div>
+          <div class="field"><label>Phone</label><input id="bkPhone" placeholder="(231) 555-0100" /></div>
+          <div class="field"><label>Email</label><input id="bkEmail" placeholder="you@shop.com" /></div>
+        </div>
+        <button class="btn-primary" id="bkSubmit" disabled>Book my call</button>
+        <div id="bkResult"></div>
+        <details class="manage-box">
+          <summary>Already booked? Manage or cancel your appointment</summary>
+          <div class="form-grid" style="margin-top:12px;">
+            <div class="field"><label>Reference code or email</label><input id="mgQuery" placeholder="OD-XXXXXX or you@shop.com" /></div>
+          </div>
+          <button class="btn-primary" id="mgFind" style="padding:9px 16px;font-size:14px;">Find my appointment</button>
+          <div id="mgResult"></div>
+        </details>
+      </div>
+    </section>
+
     <section id="price" class="reveal">
       <h2>One flat price. No payroll.</h2>
       <div class="card" style="max-width:520px;">
@@ -379,6 +471,26 @@
         <p>$300 a month after that. Same-day setup, your script, your rules.</p>
         <p><strong>The guarantee:</strong> if the desk doesn&rsquo;t catch one extra job in the first week, you don&rsquo;t pay month two.</p>
         <a class="cta" href="#contact" style="margin-top:10px;">Ask for a same-day setup</a>
+      </div>
+    </section>
+
+
+    <section id="onboard" class="reveal">
+      <h2>Ready to buy? Start onboarding here.</h2>
+      <p class="sub">Fill this in and your desk is on its way. We confirm the details within one business day, you pay the $250 setup, and your desk goes live the same day.</p>
+      <div class="card">
+        <div class="form-grid">
+          <div class="field"><label>Your name</label><input id="obName" placeholder="Tom Reyes" /></div>
+          <div class="field"><label>Business name</label><input id="obBiz" placeholder="Tom's HVAC Co." /></div>
+          <div class="field"><label>Business type</label><input id="obType" placeholder="HVAC, salon, auto..." /></div>
+          <div class="field"><label>Email</label><input id="obEmail" placeholder="you@shop.com" /></div>
+          <div class="field"><label>Phone</label><input id="obPhone" placeholder="(231) 555-0100" /></div>
+          <div class="field"><label>Phone line the desk should cover</label><input id="obLine" placeholder="Your main business line" /></div>
+          <div class="field"><label>Your hours</label><input id="obHours" placeholder="Mon-Fri 8-6, Sat 9-2" /></div>
+          <div class="field"><label>Services you sell</label><input id="obServices" placeholder="Diagnostics, installs, maintenance..." /></div>
+        </div>
+        <button class="btn-primary" id="obSubmit">Start my onboarding</button>
+        <div id="obResult"></div>
       </div>
     </section>
 
@@ -510,6 +622,151 @@
     }, { threshold: 0.12 });
     document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
 
+
+    /* ---------- Booking flow ---------- */
+    const API = "https://superagent-e1f4347f.base44.app/functions";
+    const bkDay = document.getElementById("bkDay");
+    const bkSlots = document.getElementById("bkSlots");
+    const bkSubmit = document.getElementById("bkSubmit");
+    const bkResult = document.getElementById("bkResult");
+    let selSlot = null, dayISO = null;
+
+    // populate next 14 weekdays
+    (function () {
+      const d = new Date();
+      let added = 0;
+      while (added < 10) {
+        d.setDate(d.getDate() + 1);
+        const dow = d.getDay();
+        if (dow === 0 || dow === 6) continue;
+        const iso = d.toISOString().slice(0, 10);
+        const nice = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+        const opt = document.createElement("option");
+        opt.value = iso; opt.textContent = nice + " (" + ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][dow] + ")";
+        bkDay.appendChild(opt);
+        added++;
+      }
+    })();
+
+    async function loadSlots() {
+      dayISO = bkDay.value;
+      selSlot = null; bkSubmit.disabled = true;
+      bkSlots.innerHTML = '<span class="tiny">Loading times...</span>';
+      try {
+        const r = await fetch(API + "/ondeskGetSlots", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ date: dayISO }) });
+        const d = await r.json();
+        bkSlots.innerHTML = "";
+        if (!d.ok || d.slots.length === 0) {
+          bkSlots.innerHTML = '<span class="tiny">That day is full. Try another.</span>';
+          return;
+        }
+        const ampm = (s) => { const h = +s.slice(0, 2), m = s.slice(3); const ap = h >= 12 ? "PM" : "AM"; const hh = h % 12 === 0 ? 12 : h % 12; return hh + ":" + m + " " + ap; };
+        d.slots.forEach((s) => {
+          const b = document.createElement("button");
+          b.className = "slot"; b.textContent = ampm(s); b.type = "button";
+          b.addEventListener("click", () => {
+            document.querySelectorAll(".slot").forEach((x) => x.classList.remove("sel"));
+            b.classList.add("sel"); selSlot = s; bkSubmit.disabled = false;
+          });
+          bkSlots.appendChild(b);
+        });
+      } catch (e) {
+        bkSlots.innerHTML = '<span class="tiny">Could not load times. Check your connection.</span>';
+      }
+    }
+    bkDay.addEventListener("change", loadSlots);
+    loadSlots();
+
+    bkSubmit.addEventListener("click", async () => {
+      const name = bkName.value.trim(), email = bkEmail.value.trim(), phone = bkPhone.value.trim();
+      if (!selSlot || !name || !email || !phone) {
+        bkResult.innerHTML = '<div class="panel err-box">Please fill in every field and pick a time.</div>';
+        return;
+      }
+      bkSubmit.disabled = true; bkSubmit.textContent = "Booking...";
+      try {
+        const r = await fetch(API + "/ondeskBookAppointment", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
+          name, email, phone, business_name: bkBiz.value.trim(), business_type: bkType.value,
+          date: dayISO + "T" + selSlot, kind: "consultation"
+        }) });
+        const d = await r.json();
+        if (d.ok) {
+          const nice = new Date(dayISO + "T" + selSlot).toLocaleString("en-US", { weekday: "long", month: "long", day: "numeric" }) + " at " + selSlot;
+          bkResult.innerHTML = '<div class="panel"><b>You\u2019re booked \u2713</b><span class="ref">' + d.reference + '</span>We\u2019ll call you at the number you gave on <strong>' + nice + '</strong>. A confirmation is on its way to your email. To cancel anytime, open \u201CManage or cancel\u201D below with this code.</div>';
+          loadSlots();
+        } else {
+          bkResult.innerHTML = '<div class="panel err-box">' + (d.error || "Something went wrong. Try again.") + '</div>';
+          loadSlots();
+        }
+      } catch (e) {
+        bkResult.innerHTML = '<div class="panel err-box">Network hiccup. Try again in a moment.</div>';
+      }
+      bkSubmit.disabled = false; bkSubmit.textContent = "Book my call";
+    });
+
+    /* ---------- Manage / cancel ---------- */
+    document.getElementById("mgFind").addEventListener("click", async () => {
+      const q = document.getElementById("mgQuery").value.trim();
+      const mgResult = document.getElementById("mgResult");
+      if (!q) { mgResult.innerHTML = '<div class="panel err-box">Enter your reference code or the email you booked with.</div>'; return; }
+      mgResult.innerHTML = '<span class="tiny">Looking...</span>';
+      const payload = q.toUpperCase().startsWith("OD-") ? { reference: q, lookup: true } : { email: q.toLowerCase(), lookup: true };
+      try {
+        const r = await fetch(API + "/ondeskCancelAppointment", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+        const d = await r.json();
+        if (!d.ok || d.appointments.length === 0) {
+          mgResult.innerHTML = '<div class="panel err-box">No active appointment found.</div>';
+          return;
+        }
+        mgResult.innerHTML = "";
+        d.appointments.forEach((a) => {
+          const row = document.createElement("div");
+          row.className = "appt-row";
+          const when = new Date(a.date).toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+          row.innerHTML = '<span><strong>' + when + '</strong> \u00B7 ' + (a.kind === "onboarding" ? "Setup call" : "Free consult") + ' \u00B7 ' + a.reference + '</span>';
+          const btn = document.createElement("button");
+          btn.className = "btn-cancel"; btn.textContent = "Cancel";
+          btn.addEventListener("click", async () => {
+            btn.disabled = true; btn.textContent = "Cancelling...";
+            const rc = await fetch(API + "/ondeskCancelAppointment", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ reference: a.reference }) });
+            const dc = await rc.json();
+            row.innerHTML = dc.ok ? '<span class="tiny">Cancelled. You\u2019re free \u2014 book again anytime.</span>' : '<span class="tiny">' + (dc.error || "Could not cancel. Email us.") + '</span>';
+          });
+          row.appendChild(btn);
+          mgResult.appendChild(row);
+        });
+      } catch (e) {
+        mgResult.innerHTML = '<div class="panel err-box">Network hiccup. Try again.</div>';
+      }
+    });
+
+    /* ---------- Onboarding ---------- */
+    document.getElementById("obSubmit").addEventListener("click", async () => {
+      const obResult = document.getElementById("obResult");
+      const v = (id) => document.getElementById(id).value.trim();
+      if (!v("obName") || !v("obBiz") || !v("obEmail") || !v("obPhone")) {
+        obResult.innerHTML = '<div class="panel err-box">Name, business, email, and phone are needed to start.</div>';
+        return;
+      }
+      const btn = document.getElementById("obSubmit");
+      btn.disabled = true; btn.textContent = "Sending...";
+      try {
+        const r = await fetch(API + "/ondeskStartOnboarding", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
+          contact_name: v("obName"), email: v("obEmail"), phone: v("obPhone"),
+          business_name: v("obBiz"), business_type: v("obType"),
+          phone_line: v("obLine"), hours: v("obHours"), services: v("obServices")
+        }) });
+        const d = await r.json();
+        if (d.ok) {
+          obResult.innerHTML = '<div class="panel"><b>You\u2019re in the queue \u2713</b><br/><strong>What happens next:</strong> 1) We confirm your details within one business day. 2) Pay the $250 setup when you\u2019re ready \u2014 button below. 3) Your desk goes live the same day, and the first week is guaranteed: if it doesn\u2019t catch you one extra job, month two is free.<br/><a class="pay-btn" href="https://checkout.stripe.com/c/pay/cs_test_a12LOUCWChw64KALmKfZxi8vef3NEOkHnUmX6XXSMK2r3qvtpqcsBqrqZ8#fidnandhYHdWcXxpYCc%2FJ2FgY2RwaXEnKSdicyc%2FNSknZHVsTmB8Jz8ndW5acWB2cVowNFBJUHJ9V2JzQmdLS04ybU9HYkc3PXRDZENmM0RUcmt0dmtmYTdOckM9Y1NgSDBJaDFvYkx3TGxzPTR8a1VTb3xJSVE9YkZBRjBrT09NXGdiZnZmRGhOcTU1Q29BZkFTTkQnKSdjd2poVmB3c2B3Jz9xd3BgKSdnZGZuYndqcGthRmppancnPycmY2NjY2NjJyknaWR8anBxUXx1YCc%2FJ3Zsa2JpYFpscWBoJyknYGtkZ2lgVWlkZmBtamlhYHd2Jz9xd3BgeCUl">Pay the $250 setup</a></div>';
+        } else {
+          obResult.innerHTML = '<div class="panel err-box">' + (d.error || "Something went wrong. Try again.") + '</div>';
+        }
+      } catch (e) {
+        obResult.innerHTML = '<div class="panel err-box">Network hiccup. Try again in a moment.</div>';
+      }
+      btn.disabled = false; btn.textContent = "Start my onboarding";
+    });
     /* ---------- Sticky CTA ---------- */
     const sticky = document.getElementById("stickyCta");
     window.addEventListener("scroll", () => {
