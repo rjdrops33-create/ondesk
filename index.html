@@ -226,6 +226,52 @@
     .loss .cta { margin-top: 2px; }
 
 
+
+    /* ---------- Chat widget ---------- */
+    .chat-fab {
+      position: fixed; right: 18px; bottom: 18px; z-index: 60;
+      display: flex; align-items: center; gap: 8px;
+      background: var(--stamp); color: #fffaf3; border: none; cursor: pointer;
+      border-radius: 999px; padding: 12px 18px;
+      font-family: Outfit, sans-serif; font-size: 14px; font-weight: 600;
+      box-shadow: 0 10px 26px rgba(110,44,33,.3);
+      transition: transform .15s ease, background .15s ease;
+    }
+    .chat-fab:hover { background: var(--stamp-dark); transform: translateY(-1px); }
+    .chat-panel {
+      position: fixed; right: 18px; bottom: 74px; z-index: 61;
+      width: 340px; max-width: calc(100vw - 24px);
+      background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+      box-shadow: 0 24px 60px rgba(70,48,20,.25);
+      display: none; flex-direction: column; overflow: hidden;
+    }
+    .chat-panel.open { display: flex; }
+    .chat-head {
+      background: var(--ink); color: #f7f1e7; padding: 14px 16px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .chat-head .who { font-weight: 600; font-size: 15px; }
+    .chat-head .st { font-size: 12px; opacity: .75; }
+    .chat-close { background: none; border: none; color: #f7f1e7; font-size: 20px; cursor: pointer; padding: 0 4px; line-height: 1; }
+    .chat-body { height: 300px; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .chat-msg { max-width: 85%; padding: 9px 12px; border-radius: 14px; font-size: 14px; line-height: 1.45; white-space: pre-wrap; }
+    .chat-msg.desk { background: rgba(141,59,44,.08); border: 1px solid var(--line); align-self: flex-start; border-bottom-left-radius: 4px; }
+    .chat-msg.visitor { background: var(--ink); color: #f7f1e7; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .chat-typing { align-self: flex-start; color: var(--muted); font-size: 13px; padding-left: 6px; }
+    .chat-input-row { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); }
+    .chat-input-row input {
+      flex: 1; font-family: Outfit, sans-serif; font-size: 14px;
+      padding: 10px 12px; border-radius: 999px; border: 1.5px solid var(--line);
+      background: #fffdf9; color: var(--ink); outline: none;
+    }
+    .chat-input-row input:focus { border-color: var(--stamp); }
+    .chat-send {
+      background: var(--stamp); color: #fffaf3; border: none; cursor: pointer;
+      border-radius: 999px; padding: 0 16px; font-family: Outfit, sans-serif;
+      font-weight: 600; font-size: 14px; transition: background .15s ease;
+    }
+    .chat-send:hover { background: var(--stamp-dark); }
+    .chat-send:disabled { opacity: .5; }
     /* ---------- Booking ---------- */
     .field { display: flex; flex-direction: column; gap: 5px; }
     .field label { font-size: 13px; font-weight: 600; }
@@ -309,6 +355,7 @@
       nav { display: none; }
       .hero { padding-top: 34px; }
       .sticky-cta { font-size: 13px; padding: 10px 14px; gap: 10px; }
+      .chat-fab { bottom: 80px; right: 12px; padding: 10px 14px; }
     }
   </style>
 </head>
@@ -522,13 +569,27 @@
         <p>An AI phone and message desk for local service businesses.</p>
         <p>Email: <a href="mailto:ondeskcustomersupport@gmail.com">ondeskcustomersupport@gmail.com</a></p>
         <p>Service area: Michigan, remote setup available.</p>
-        <p>To start: email the shop name, the phone line you want covered, and the best time for a 10-minute call.</p>
+        <p>To start: email the shop name, the phone line you want covered, and the best time for a 10-minute call. Or hit \u201CChat with the desk\u201D in the corner and just ask.</p>
       </div>
     </section>
 
     <footer>
       On Desk is a trade name. Service is provided by the account owner. This page describes the service offered. It is not a law firm, medical office, or licensed contractor.
     </footer>
+  </div>
+
+
+  <button class="chat-fab" id="chatFab">Questions? Chat with the desk</button>
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-head">
+      <div><div class="who">On Desk Support</div><div class="st">Real answers, usually in under a minute</div></div>
+      <button class="chat-close" id="chatClose" aria-label="Close chat">&times;</button>
+    </div>
+    <div class="chat-body" id="chatBody"></div>
+    <div class="chat-input-row">
+      <input id="chatInput" placeholder="Ask anything about the service..." />
+      <button class="chat-send" id="chatSend">Send</button>
+    </div>
   </div>
 
   <div class="sticky-cta" id="stickyCta">
@@ -767,6 +828,100 @@
       }
       btn.disabled = false; btn.textContent = "Start my onboarding";
     });
+
+    /* ---------- Support chat ---------- */
+    const chatFab = document.getElementById("chatFab");
+    const chatPanel = document.getElementById("chatPanel");
+    const chatBody = document.getElementById("chatBody");
+    const chatInput = document.getElementById("chatInput");
+    const chatSend = document.getElementById("chatSend");
+    let chatSession = localStorage.getItem("od_chat_session");
+    if (!chatSession) {
+      chatSession = "s" + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+      localStorage.setItem("od_chat_session", chatSession);
+    }
+    let pollTimer = null;
+
+    function chatBubble(text, who) {
+      const d = document.createElement("div");
+      d.className = "chat-msg " + who;
+      d.textContent = text;
+      chatBody.appendChild(d);
+      chatBody.scrollTop = chatBody.scrollHeight;
+      return d;
+    }
+    function renderMessages(msgs) {
+      chatBody.innerHTML = "";
+      msgs.forEach((m) => {
+        chatBubble(m.question, "visitor");
+        if (m.status === "Answered" && m.answer) {
+          chatBubble(m.answer, "desk");
+        } else {
+          const t = document.createElement("div");
+          t.className = "chat-typing";
+          t.id = "chatTyping";
+          t.textContent = "The desk is typing...";
+          chatBody.appendChild(t);
+        }
+      });
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+    async function pollChat() {
+      try {
+        const r = await fetch(API + "/ondeskPollChat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ session_id: chatSession }) });
+        const d = await r.json();
+        if (d.ok) {
+          renderMessages(d.messages);
+          const pending = d.messages.some((m) => m.status === "Pending");
+          chatSend.disabled = pending;
+          if (pending && pollTimer === null) {
+            pollTimer = setInterval(pollChat, 8000);
+          } else if (!pending && pollTimer !== null) {
+            clearInterval(pollTimer); pollTimer = null;
+          }
+        }
+      } catch (e) { /* retry on next poll */ }
+    }
+    async function sendChat() {
+      const q = chatInput.value.trim();
+      if (!q || chatSend.disabled) return;
+      chatBubble(q, "visitor");
+      chatInput.value = "";
+      const t = document.createElement("div");
+      t.className = "chat-typing"; t.id = "chatTyping";
+      t.textContent = "The desk is typing...";
+      chatBody.appendChild(t);
+      chatBody.scrollTop = chatBody.scrollHeight;
+      try {
+        const r = await fetch(API + "/ondeskAskChat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ session_id: chatSession, question: q }) });
+        const d = await r.json();
+        if (d.ok) {
+          chatSend.disabled = true;
+          if (pollTimer === null) pollTimer = setInterval(pollChat, 8000);
+          pollChat();
+        } else {
+          if (t) t.remove();
+          chatBubble(d.message || "Network hiccup \u2014 try again in a moment.", "desk");
+        }
+      } catch (e) {
+        if (t) t.remove();
+        chatBubble("Network hiccup \u2014 try again in a moment.", "desk");
+      }
+    }
+    chatFab.addEventListener("click", () => {
+      chatPanel.classList.toggle("open");
+      if (chatPanel.classList.contains("open")) {
+        if (!chatBody.dataset.greeted) {
+          chatBubble("Hey there \u2014 I\u2019m the On Desk support agent. Ask me anything: how it answers your calls, what it costs, how setup works. Real answers, no script.", "desk");
+          chatBody.dataset.greeted = "1";
+        }
+        pollChat();
+      }
+    });
+    document.getElementById("chatClose").addEventListener("click", () => chatPanel.classList.remove("open"));
+    chatSend.addEventListener("click", sendChat);
+    chatInput.addEventListener("keydown", (e) => { if (e.key === "Enter") sendChat(); });
+
     /* ---------- Sticky CTA ---------- */
     const sticky = document.getElementById("stickyCta");
     window.addEventListener("scroll", () => {
