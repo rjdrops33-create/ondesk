@@ -17,8 +17,10 @@
       --card: #fffaf3;
       --stamp: #8d3b2c;
       --stamp-dark: #6e2c21;
+      --green: #3f6b4a;
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     html, body { margin: 0; padding: 0; }
     body {
       font-family: Outfit, sans-serif;
@@ -41,12 +43,13 @@
       font-size: 16px;
     }
     nav a { text-decoration: none; margin-left: 18px; color: var(--muted); font-size: 15px; }
-    .hero { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 28px; align-items: end; padding: 54px 0 28px; }
+    nav a:hover { color: var(--ink); }
+    .hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 34px; align-items: start; padding: 54px 0 28px; }
     h1 {
       font-family: Fraunces, serif;
       font-weight: 520;
-      font-size: clamp(42px, 7vw, 76px);
-      line-height: 0.92;
+      font-size: clamp(42px, 7vw, 72px);
+      line-height: 0.95;
       letter-spacing: -0.03em;
       margin: 0 0 18px;
     }
@@ -59,8 +62,9 @@
       padding: 13px 18px;
       border-radius: 999px;
       font-weight: 600;
+      transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
     }
-    .cta:hover { background: var(--stamp-dark); }
+    .cta:hover { background: var(--stamp-dark); transform: translateY(-1px); box-shadow: 0 8px 20px rgba(110,44,33,.25); }
     .note { display: block; margin-top: 10px; color: var(--muted); font-size: 14px; }
     .card {
       background: var(--card);
@@ -75,22 +79,183 @@
     .price span { font-size: 16px; color: var(--muted); }
     section { padding: 22px 0; }
     h2 { font-family: Fraunces, serif; font-size: 32px; font-weight: 520; margin: 0 0 8px; }
+    .sub { color: var(--muted); margin: 0 0 8px; max-width: 560px; }
     .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
     .grid article, .steps div {
       background: rgba(255,250,243,0.7);
       border: 1px solid var(--line);
       border-radius: 16px;
       padding: 18px;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .grid article:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 30px rgba(70, 48, 20, 0.08);
+      border-color: #d4c8b4;
     }
     .grid h3, .steps h3 { margin: 8px 0 6px; font-size: 18px; }
     .grid p, .steps p { margin: 0; color: var(--muted); }
     .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
     .num { font-family: Fraunces, serif; color: var(--stamp); font-size: 22px; }
     footer { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+
+    /* ---------- Phone demo ---------- */
+    .phone-col { display: flex; flex-direction: column; gap: 16px; }
+    .phone {
+      background: linear-gradient(160deg, #2a2521, #1c1915);
+      border-radius: 34px;
+      padding: 12px;
+      box-shadow: 0 24px 50px rgba(70, 48, 20, 0.18);
+      position: relative;
+    }
+    .phone::after {
+      content: "";
+      position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+      width: 74px; height: 20px; border-radius: 12px;
+      background: #0e0c0a;
+    }
+    .screen {
+      background: #f3ecdd;
+      border-radius: 24px;
+      min-height: 430px;
+      padding: 44px 16px 14px;
+      display: flex; flex-direction: column;
+      font-size: 14px;
+      overflow: hidden;
+      position: relative;
+    }
+    .call-head { text-align: center; margin-bottom: 10px; }
+    .call-head .who { font-weight: 600; font-size: 15px; }
+    .call-head .status { color: var(--muted); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .call-head.ringing .status { color: var(--green); animation: pulse 1.2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.45; } }
+    .transcript { flex: 1; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+    .line {
+      max-width: 88%;
+      padding: 9px 12px;
+      border-radius: 14px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .3s ease, transform .3s ease;
+    }
+    .line.show { opacity: 1; transform: translateY(0); }
+    .line.ai { background: var(--stamp); color: #fffaf3; align-self: flex-start; border-bottom-left-radius: 4px; }
+    .line.caller { background: #fffaf3; border: 1px solid var(--line); align-self: flex-end; border-bottom-right-radius: 4px; }
+    .typing { display: inline-flex; gap: 3px; align-items: center; }
+    .typing i { width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: .35; animation: pulse 1s infinite; }
+    .typing i:nth-child(2) { animation-delay: .2s; }
+    .typing i:nth-child(3) { animation-delay: .4s; }
+    .booked {
+      position: absolute; inset: 0;
+      display: none;
+      flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      background: rgba(243, 236, 221, 0.96);
+      text-align: center;
+    }
+    .booked.show { display: flex; }
+    .stamp-badge {
+      font-family: Fraunces, serif;
+      border: 2.5px solid var(--green);
+      color: var(--green);
+      border-radius: 8px;
+      padding: 8px 18px;
+      font-size: 24px;
+      letter-spacing: 0.08em;
+      transform: rotate(-6deg);
+      animation: stampIn .45s cubic-bezier(.2, 1.6, .4, 1);
+    }
+    @keyframes stampIn { 0% { transform: rotate(-6deg) scale(2.2); opacity: 0; } 100% { transform: rotate(-6deg) scale(1); opacity: 1; } }
+    .booked p { margin: 0; color: var(--muted); font-size: 13px; max-width: 230px; }
+    .booked strong { color: var(--ink); }
+    .phone-controls { display: flex; gap: 10px; justify-content: center; margin-top: 12px; }
+    .btn-ghost {
+      background: transparent;
+      border: 1.5px solid var(--line);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-family: Outfit, sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: border-color .15s ease, transform .15s ease;
+    }
+    .btn-ghost:hover { border-color: var(--stamp); color: var(--stamp); transform: translateY(-1px); }
+    .demo-tag { text-align: center; font-size: 12px; color: var(--muted); }
+
+    /* ---------- Calculator ---------- */
+    .calc { margin-top: 18px; }
+    .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 14px; }
+    .calc-row { margin: 14px 0; }
+    .calc-row label { display: flex; justify-content: space-between; font-size: 15px; margin-bottom: 6px; }
+    .calc-row label b { font-family: Fraunces, serif; font-size: 18px; color: var(--stamp); }
+    input[type="range"] {
+      width: 100%;
+      appearance: none; -webkit-appearance: none;
+      height: 6px; border-radius: 3px;
+      background: linear-gradient(90deg, var(--stamp) var(--fill, 40%), var(--line) var(--fill, 40%));
+      outline: none;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--card);
+      border: 2.5px solid var(--stamp);
+      box-shadow: 0 3px 8px rgba(110,44,33,.25);
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--card);
+      border: 2.5px solid var(--stamp);
+    }
+    .loss {
+      text-align: center;
+      padding: 20px 18px 6px;
+    }
+    .loss .label { color: var(--green); }
+    .loss-num {
+      font-family: Fraunces, serif;
+      font-size: clamp(38px, 5vw, 54px);
+      line-height: 1;
+      margin: 10px 0 4px;
+      color: var(--stamp);
+    }
+    .loss-num small { font-size: 18px; color: var(--muted); font-family: Outfit, sans-serif; }
+    .loss p { color: var(--muted); font-size: 14px; max-width: 320px; margin: 0 auto 14px; }
+    .loss .cta { margin-top: 2px; }
+
+    /* ---------- Reveal on scroll ---------- */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ---------- Sticky bar ---------- */
+    .sticky-cta {
+      position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%) translateY(90px);
+      background: var(--ink); color: #f7f1e7;
+      border-radius: 999px;
+      padding: 12px 20px;
+      display: flex; align-items: center; gap: 14px;
+      box-shadow: 0 14px 34px rgba(28, 25, 21, 0.35);
+      font-size: 14px;
+      transition: transform .35s ease;
+      z-index: 50;
+      white-space: nowrap;
+    }
+    .sticky-cta.show { transform: translateX(-50%) translateY(0); }
+    .sticky-cta a {
+      background: var(--stamp); color: #fffaf3;
+      text-decoration: none; font-weight: 600;
+      padding: 8px 14px; border-radius: 999px;
+      transition: background .15s ease;
+    }
+    .sticky-cta a:hover { background: var(--stamp-dark); }
+
     @media (max-width: 760px) {
-      .hero, .grid, .steps { grid-template-columns: 1fr; }
+      .hero, .grid, .steps, .calc-grid { grid-template-columns: 1fr; }
       nav { display: none; }
       .hero { padding-top: 34px; }
+      .sticky-cta { font-size: 13px; padding: 10px 14px; gap: 10px; }
     }
   </style>
 </head>
@@ -99,7 +264,9 @@
     <header>
       <div class="mark"><span class="seal">O</span> On Desk</div>
       <nav>
+        <a href="#demo">See a call</a>
         <a href="#work">What we do</a>
+        <a href="#calc">What voicemail costs</a>
         <a href="#price">Pricing</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -108,25 +275,41 @@
     <div class="hero">
       <div>
         <p class="label">For shops that live on the phone</p>
-        <h1>The desk that picks up when you can’t.</h1>
-        <p class="lede">On Desk is a real AI receptionist with a real voice. It answers live, asks your questions, books the job, follows up by text, and logs every call — so a missed call never walks to the next shop.</p>
-        <a class="cta" href="#contact">Ask for a same-day setup</a>
+        <h1>The desk that picks up when you can&rsquo;t.</h1>
+        <p class="lede">On Desk is a real AI receptionist with a real voice. It answers live, asks your questions, books the job, follows up by text, and logs every call &mdash; so a missed call never walks to the next shop.</p>
+        <a class="cta" href="#demo">Watch it answer a call</a>
+        <a class="cta" href="#contact" style="background:transparent;color:var(--ink);border:1.5px solid var(--line);margin-left:8px;">Same-day setup</a>
         <span class="note">HVAC, salons, auto, dental, gyms, studios, and anyone who loses jobs to voicemail.</span>
       </div>
-      <aside class="card" id="price">
-        <p class="label">Simple pricing</p>
-        <p class="price">$250 <span>to go live</span></p>
-        <p>$300 a month after that.</p>
-        <p>If it doesn’t catch one extra job in the first week, you don’t pay month two.</p>
-      </aside>
+
+      <div class="phone-col" id="demo">
+        <div class="phone">
+          <div class="screen">
+            <div class="call-head ringing" id="callHead">
+              <div class="who">Tom&rsquo;s HVAC Co.</div>
+              <div class="status" id="callStatus">Incoming call</div>
+            </div>
+            <div class="transcript" id="transcript"></div>
+            <div class="booked" id="booked">
+              <div class="stamp-badge">JOB BOOKED</div>
+              <p><strong>Maria &middot; AC diagnostic</strong><br/>Tomorrow, 9:00 AM<br/>Confirmation texted. Deposit link sent. You were on a ladder the whole time.</p>
+            </div>
+          </div>
+        </div>
+        <div class="phone-controls">
+          <button class="btn-ghost" id="replayBtn">Replay the call</button>
+        </div>
+        <p class="demo-tag">A real script your desk would run. Every word approved by you.</p>
+      </div>
     </div>
 
-    <section id="work">
+    <section id="work" class="reveal">
       <h2>What the desk handles</h2>
+      <p class="sub">Nine jobs, one desk. Hover them, then imagine all nine happening while your hands are full.</p>
       <div class="grid">
         <article>
           <h3>Answers live, every time</h3>
-          <p>A conversational voice picks up on the first ring — not a voicemail box, not a menu maze. It talks like a person because it is built to.</p>
+          <p>A conversational voice picks up on the first ring &mdash; not a voicemail box, not a menu maze. It talks like a person because it is built to.</p>
         </article>
         <article>
           <h3>Screens the call</h3>
@@ -142,28 +325,64 @@
         </article>
         <article>
           <h3>The book</h3>
-          <p>Logs who called, what they wanted, and the next step. You get a short recap you can read in ten seconds — plus the full call transcript whenever you want it.</p>
+          <p>Logs who called, what they wanted, and the next step. You get a short recap you can read in ten seconds &mdash; plus the full call transcript whenever you want it.</p>
         </article>
         <article>
           <h3>Outbound follow-up</h3>
-          <p>Need the quote chased or the appointment confirmed? The desk picks up the phone and calls out — politely, persistently, and in your shop’s voice.</p>
+          <p>Need the quote chased or the appointment confirmed? The desk picks up the phone and calls out &mdash; politely, persistently, and in your shop&rsquo;s voice.</p>
         </article>
         <article>
           <h3>Gets you paid</h3>
-          <p>Sends a payment link by text the moment the job is booked. The desk collects deposits — it never promises a price you didn’t set.</p>
+          <p>Sends a payment link by text the moment the job is booked. The desk collects deposits &mdash; it never promises a price you didn&rsquo;t set.</p>
         </article>
         <article>
           <h3>Looks it up mid-call</h3>
-          <p>Customer asks about your hours, your services, your service area? The desk answers from your shop’s own sheet — and can research anything it doesn’t know yet.</p>
+          <p>Customer asks about your hours, your services, your service area? The desk answers from your shop&rsquo;s own sheet &mdash; and can research anything it doesn&rsquo;t know yet.</p>
         </article>
         <article>
           <h3>Never sleeps badly</h3>
-          <p>After hours, on a job, mid-holiday — the desk keeps the same energy. One AI, one voice, no sick days, no payroll.</p>
+          <p>After hours, on a job, mid-holiday &mdash; the desk keeps the same energy. One AI, one voice, no sick days, no payroll.</p>
         </article>
       </div>
     </section>
 
-    <section>
+    <section id="calc" class="reveal">
+      <h2>What voicemail is costing you</h2>
+      <p class="sub">Move the sliders. This is your money booking at the shop down the street.</p>
+      <div class="card calc">
+        <div class="calc-grid">
+          <div>
+            <div class="calc-row">
+              <label>Calls you miss in a busy week <b id="callsOut">5</b></label>
+              <input type="range" id="callsIn" min="1" max="30" value="5" />
+            </div>
+            <div class="calc-row">
+              <label>Average job worth <b id="jobOut">$250</b></label>
+              <input type="range" id="jobIn" min="50" max="1500" step="10" value="250" />
+            </div>
+            <p style="color:var(--muted);font-size:13px;margin:6px 0 0;">Assumes just 1 in 3 missed callers would have booked. Most owners say it&rsquo;s more.</p>
+          </div>
+          <div class="loss">
+            <p class="label">Walking to the next shop, every year</p>
+            <div class="loss-num" id="lossOut">$21,660</div>
+            <p id="lossMonth">&nbsp;</p>
+            <a class="cta" href="#contact">Stop the leak</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="price" class="reveal">
+      <h2>One flat price. No payroll.</h2>
+      <div class="card" style="max-width:520px;">
+        <p class="price">$250 <span>to go live</span></p>
+        <p>$300 a month after that. Same-day setup, your script, your rules.</p>
+        <p><strong>The guarantee:</strong> if the desk doesn&rsquo;t catch one extra job in the first week, you don&rsquo;t pay month two.</p>
+        <a class="cta" href="#contact" style="margin-top:10px;">Ask for a same-day setup</a>
+      </div>
+    </section>
+
+    <section class="reveal">
       <h2>How a setup works</h2>
       <div class="steps">
         <div>
@@ -179,12 +398,12 @@
         <div>
           <div class="num">03</div>
           <h3>You stay in charge</h3>
-          <p>The desk works for you. It does not take payment behind your back, promise work you didn’t quote, or answer questions you didn’t clear.</p>
+          <p>The desk works for you. It does not take payment behind your back, promise work you didn&rsquo;t quote, or answer questions you didn&rsquo;t clear.</p>
         </div>
       </div>
     </section>
 
-    <section id="contact">
+    <section id="contact" class="reveal">
       <h2>Contact</h2>
       <div class="card">
         <p><strong>On Desk</strong></p>
@@ -199,5 +418,105 @@
       On Desk is a trade name. Service is provided by the account owner. This page describes the service offered. It is not a law firm, medical office, or licensed contractor.
     </footer>
   </div>
+
+  <div class="sticky-cta" id="stickyCta">
+    <span>Every ring you miss books somewhere else.</span>
+    <a href="#contact">Get On Desk</a>
+  </div>
+
+  <script>
+    /* ---------- Call demo ---------- */
+    const lines = [
+      ["ai", "Thanks for calling Tom\u2019s HVAC, this is the desk. How can I help?"],
+      ["caller", "Hey, my AC just quit. How fast can someone come out?"],
+      ["ai", "Sorry to hear that. Can I grab your name and the address?"],
+      ["caller", "Maria. 118 Elm Street."],
+      ["ai", "Got it, Maria. We have a tech free tomorrow at 9 AM. Want me to lock it in?"],
+      ["caller", "Yes. Do you know what a diagnostic runs?"],
+      ["ai", "Diagnostics start at $89. The tech confirms the exact price on site. You\u2019re booked for 9 AM, and the confirmation is in your texts."]
+    ];
+    const transcript = document.getElementById("transcript");
+    const callHead = document.getElementById("callHead");
+    const callStatus = document.getElementById("callStatus");
+    const booked = document.getElementById("booked");
+    let timers = [];
+    function clearDemo() {
+      timers.forEach(t => clearTimeout(t));
+      timers = [];
+      transcript.innerHTML = "";
+      booked.classList.remove("show");
+      callHead.classList.add("ringing");
+      callStatus.textContent = "Incoming call";
+    }
+    function playDemo() {
+      clearDemo();
+      let delay = 700;
+      timers.push(setTimeout(() => {
+        callHead.classList.remove("ringing");
+        callStatus.textContent = "On Desk answered \u2022 0:04";
+      }, delay));
+      lines.forEach((l, i) => {
+        delay += 1100;
+        timers.push(setTimeout(() => {
+          const div = document.createElement("div");
+          div.className = "line " + l[0];
+          div.innerHTML = l[1];
+          transcript.appendChild(div);
+          requestAnimationFrame(() => requestAnimationFrame(() => div.classList.add("show")));
+        }, delay));
+      });
+      delay += 1900;
+      timers.push(setTimeout(() => {
+        callStatus.textContent = "Call ended \u2022 Job booked";
+        booked.classList.add("show");
+      }, delay));
+    }
+    document.getElementById("replayBtn").addEventListener("click", playDemo);
+    /* auto-start when the phone scrolls into view, replayable */
+    const demoRan = { done: false };
+    const demoObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !demoRan.done) { demoRan.done = true; playDemo(); }
+      });
+    }, { threshold: 0.4 });
+    demoObserver.observe(document.getElementById("demo"));
+
+    /* ---------- Calculator ---------- */
+    const callsIn = document.getElementById("callsIn");
+    const jobIn = document.getElementById("jobIn");
+    function fill(el) {
+      const pct = (el.value - el.min) / (el.max - el.min) * 100;
+      el.style.setProperty("--fill", pct + "%");
+    }
+    function fmt(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
+    function calc() {
+      fill(callsIn); fill(jobIn);
+      const missed = +callsIn.value;
+      const value = +jobIn.value;
+      const perYear = missed * value / 3 * 52;
+      document.getElementById("callsOut").textContent = missed;
+      document.getElementById("jobOut").textContent = fmt(value);
+      document.getElementById("lossOut").textContent = fmt(perYear);
+      document.getElementById("lossMonth").textContent =
+        "That\u2019s " + fmt(perYear / 12) + " a month. The desk costs $300.";
+    }
+    callsIn.addEventListener("input", calc);
+    jobIn.addEventListener("input", calc);
+    calc();
+
+    /* ---------- Scroll reveal ---------- */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); revealObserver.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
+
+    /* ---------- Sticky CTA ---------- */
+    const sticky = document.getElementById("stickyCta");
+    window.addEventListener("scroll", () => {
+      const past = window.scrollY > 480;
+      const nearEnd = window.innerHeight + window.scrollY > document.body.scrollHeight - 420;
+      sticky.classList.toggle("show", past && !nearEnd);
+    }, { passive: true });
+  </script>
 </body>
 </html>
